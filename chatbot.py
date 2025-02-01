@@ -2,12 +2,12 @@ from openai import OpenAI
 
 client = OpenAI()
 
-def set_user_input_category(user_input):
-    question_keywords = ["who", "what", "when", "where", "why", "how", "?"]
-    for keyword in question_keywords:
-        if keyword in user_input.lower():
-            return "question"
-    return "statement"
+# def set_user_input_category(user_input):
+#     question_keywords = ["who", "what", "when", "where", "why", "how", "?"]
+#     for keyword in question_keywords:
+#         if keyword in user_input.lower():
+#             return "question"
+#     return "statement"
 
 def get_api_chat_response_message(model, messages):
 # step 1 - accepts the preferred model and list of messages
@@ -28,18 +28,55 @@ def get_api_chat_response_message(model, messages):
     return response_content
 
 #prompt the user to ask a question
-user_input = input("\nAsk something...\n\n")
+# user_input = input("\nAsk something...\n\n")
 
 model = "gpt-3.5-turbo"
 
+event_flowers_description = """Now accepting orders for our Spring, Summer and Fall 2025 harvests.
+
+Wedding and Event Flowers are sold by the bucket.
+
+Each bucket contains approximately 150 stems, or 5 bouquets.
+
+Customization options include bouquets, loose stems, and vase arrangements.
+
+
+We recommend ordering just a few buckets, then schedule a visit to the farm about 1 week before your pick-up so we can discuss your flower needs. You can always increase or decrease your order after your visit."""
+
+event_flowers_prompt = f"""
+Summarize the text below, in between < and >, in no more than 100 words.
+<{event_flowers_description}>
+Write this as an Instagram post and make it exciting. This text will be used to promote the launch of event flower.
+"""
+
 messages = [
     {"role": "system", "content": "You are an expert on growing flowers and you love marketing and sales."},
-    {"role": "user", "content": user_input}
+    {"role": "user", "content": event_flowers_prompt},
 ]
 
-response_for_user = get_api_chat_response_message(model, messages)
+event_flowers_summary = get_api_chat_response_message(model, messages)
 
-if set_user_input_category(user_input) == "question":
-    response_for_user = "Good question! " + response_for_user
+# event_flowers_reviews = {
+# """Absolutely Stunning Flowers!
+# "The flowers we ordered for our wedding were beyond perfect! The variety, freshness, and vibrant colors made our arrangements truly special. The farm visit a week before pickup was such a nice touch—it gave us confidence in our choices. Highly recommend!"
+# — Emily R.""",
+# """Perfect for DIY Wedding Arrangements
+# "We wanted a natural, garden-inspired look for our wedding, and these event flowers delivered! The DIY buckets were full of gorgeous, high-quality stems. Having the option to mix bouquets, loose stems, and vase arrangements made the process so easy. Will definitely order again!"
+# — Sarah & Jake T.""",
+# """Great Experience from Start to Finish
+# "From placing the order to picking up the flowers, the process was seamless. I loved being able to visit the farm beforehand to fine-tune my selection. The flowers were fresh, fragrant, and lasted beautifully throughout our event!"
+# — Mark D.""",
+# """More Than Enough for My Event!
+# "I ordered a few buckets for a summer bridal shower, and they were so full that I had more than enough to decorate! The mix of seasonal flowers was perfect, and the flexibility to adjust my order after visiting the farm was a huge plus. Will definitely be back for future events!"
+# — Jessica L.""",
+# """ Seasonal Beauty at Its Best
+# "The flowers were absolutely breathtaking! You can tell they were grown with care. I loved that we could choose from different customization options, and the staff was so helpful in making sure we got exactly what we needed. If you want fresh, locally grown flowers for your event, this is the place to go!"
+# — Olivia M."""
+# }
 
-print("\n" + response_for_user + "\n")
+# event_flowers_reviews_with_sentiments = []
+
+# if set_user_input_category(user_input) == "question":
+#     response_for_user = "Good question! " + response_for_user
+
+print("\n" + event_flowers_summary + "\n")

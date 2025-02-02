@@ -91,7 +91,7 @@ for review in event_flowers_reviews_with_sentiments:
 event_flowers_launch_email_prompt = f"""
 Please generate an email  < and >, in no more than 800 words.
 <{event_flowers_description}>
-Make the email exciting and annouce the launch of this new offering and include <{positive_event_flowers_reviews_with_sentiments}>
+Make the email exciting and announce the launch of this new offering and include <{positive_event_flowers_reviews_with_sentiments}> at the end of the email in italicized font.
 """
 
 review_messages = [

@@ -78,4 +78,28 @@ for review in event_flowers_reviews:
 #     response_for_user = "Good question! " + response_for_user
 
 # print("\n" + event_flowers_summary + "\n")
-print(event_flowers_reviews_with_sentiments)
+# print(event_flowers_reviews_with_sentiments)
+
+
+positive_event_flowers_reviews_with_sentiments = []
+
+for review in event_flowers_reviews_with_sentiments:
+    if review["sentiment"] == "positive":
+        positive_event_flowers_reviews_with_sentiments.append(review)
+
+
+event_flowers_launch_email_prompt = f"""
+Please generate an email  < and >, in no more than 800 words.
+<{event_flowers_description}>
+Make the email exciting and annouce the launch of this new offering and include <{positive_event_flowers_reviews_with_sentiments}>
+"""
+
+review_messages = [
+    {"role": "system", "content": "You are a marketing copy writer who is an expert in growing and selling fresh cut flowers."},
+    {"role": "user", "content": event_flowers_launch_email_prompt}
+]
+
+marketing_email = get_api_chat_response_message(model, review_messages)
+
+print(marketing_email)
+
